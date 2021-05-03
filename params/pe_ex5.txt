@@ -1,0 +1,64 @@
+# For more details about IVDP parameters, visit https://github.com/rodrigopsav/IVDP
+
+##########################################################
+######################## INPUT DATA ######################
+
+|INPUT_DIR=./examples/pe_wgs1
+|OUTPUT_DIR=./output
+|OUTPUT_NAME=PEex5
+|LIST_SAMPLES=none
+|ANALYSIS=1   # ANALYSIS=1 (for WGS) or ANALYSIS=2 (for RNAseq)
+|EXTENSION_PE1=_1.fastq.gz
+|EXTENSION_PE2=_2.fastq.gz
+
+
+##########################################################
+####################### INPUT GENOME #####################
+
+|ASSEMBLY=refGen
+|REFERENCE=./examples/ref_gen/reference.fa
+|VARIANTS=./examples/ref_gen/variants.vcf.gz
+|ANNOTATION=./examples/ref_gen/annotation.gtf
+
+
+##########################################################
+####################### WORKFLOW STEPS ###################
+
+|STEP_QC_TRIM=yes
+|STEP_ALIGNMENT=yes
+|STEP_MDUP=yes
+|STEP_BQSR=yes
+|STEP_VAR_CALL=yes
+|STEP_GVCF_TO_VCF=yes
+|STEP_VCF_FILTER=yes
+
+
+##########################################################
+#################### CHOOSE THE PROGRAMS #################
+
+|ALIGNER_PROGRAM=bwa2, bowtie2
+|CALLER_PROGRAM=gatk4GenomicsDBImport, bcftools, freebayes-parallel
+
+
+##########################################################
+##################### GENERAL PARAMETERS #################
+
+|CALL_BY_CHROM=yes     # Only for local machine
+|BP_BY_CHROM=all       # Only for HPCC
+|CHROM_SET=2
+|SELECT_CHROM=1,2
+|MIN_READ_LENGTH=50
+|MAX_READ_LENGTH=150
+|DOWNSAMPLING_FASTQ=0
+|DOWNSAMPLING_BAM=0
+|MIN_DEPTH=3
+|MAF=0.01
+|MISSING=0.3
+|COMBINE_VCF=partial, full
+|THREADS=40                  # Only for local machine
+|BATCH=5                     # Only for local machine
+|STATS_ALIGNMENT=yes
+|KEEP_LOG=yes
+|KEEP_INTERMEDIATE_DATA=yes
+
+##########################################################

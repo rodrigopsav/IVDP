@@ -1,0 +1,51 @@
+name: ivdp
+channels:
+  - conda-forge
+  - anaconda
+  - bioconda
+  - defaults
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+dependencies:
+  - python=3.8
+  - parallel
+  - dos2unix
+  - rename
+  - sed
+  - git
+  - pigz
+  - datamash
+  - sra-tools=2.10.8
+  - entrez-direct=13.9
+  - fastqc
+  - fastq_utils
+  - seqtk
+  - multiqc
+  - trimmomatic
+  - bbmap
+  - bowtie
+  - bowtie2
+  - bwa
+  - bwa-mem2
+  - zlib
+  - gmap
+  - hisat2=2.2.1
+  - star
+  - bcftools=1.9
+  - sambamba
+  - picard
+  - gatk4
+  - varscan
+  - vcftools
+  - perl-vcftools-vcf
+  - plink
+  - plink2
+  - bedtools
+  - subread
+  - snpeff
+  - snpsift
+  - vcflib
+  - ghostscript
+  - firefox
+prefix: /home/work/rps/softwares/miniconda3/envs/ivdp
