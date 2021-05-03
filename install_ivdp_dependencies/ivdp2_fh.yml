@@ -1,0 +1,16 @@
+name: ivdp2
+channels:
+  - conda-forge
+  - anaconda
+  - bioconda
+  - defaults
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+dependencies:
+  - python=2.7
+  - htslib=1.9
+  - freebayes
+  - platypus-variant
+  - vcflib
+prefix: /home/work/rps/softwares/miniconda3/envs/ivdp2

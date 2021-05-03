@@ -1,0 +1,4 @@
+sample11 ANIMAL1
+sample12 ANIMAL1
+sample13 ANIMAL2
+sample14 ANIMAL3

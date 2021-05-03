@@ -1,0 +1,74 @@
+# For more details about IVDP parameters, visit https://github.com/rodrigopsav/IVDP
+
+##########################################################
+######################## INPUT DATA ######################
+
+|INPUT_DIR=/home/work/rps/softwares/IVDP/examples/se_rnaseq
+|OUTPUT_DIR=/home/work/rps/output
+|OUTPUT_NAME=SEex1
+|LIST_SAMPLES=none
+|ANALYSIS=2   # ANALYSIS=1 (for WGS) or ANALYSIS=2 (for RNAseq)
+|EXTENSION_SE=.fastq.gz
+
+
+##########################################################
+####################### INPUT GENOME #####################
+
+|ASSEMBLY=refGen
+|REFERENCE=/home/work/rps/softwares/IVDP/examples/ref_gen/reference.fa
+|VARIANTS=/home/work/rps/softwares/IVDP/examples/ref_gen/variants.vcf.gz
+|ANNOTATION=/home/work/rps/softwares/IVDP/examples/ref_gen/annotation.gtf
+
+
+##########################################################
+####################### WORKFLOW STEPS ###################
+
+|STEP_QC_TRIM=yes
+|STEP_ALIGNMENT=yes
+|STEP_GENECOUNT=yes
+|STEP_MDUP=yes
+|STEP_BQSR=yes
+|STEP_VAR_CALL=yes
+|STEP_GVCF_TO_VCF=yes
+|STEP_VCF_FILTER=yes
+
+
+##########################################################
+#################### CHOOSE THE PROGRAMS #################
+
+|ALIGNER_PROGRAM=bwa2, bowtie2  ###(Options: bbmap, bowtie, bowtie2, bwa, bwa2, gsnap, hisat2, star)
+
+|CALLER_PROGRAM=bcftools, freebayes-parallel, gatk4  ###(Options: bcftools, freebayes, freebayes-parallel, gatk4, gatk4GenomicsDBImport, gatk4CombineGVCFs, platypus, varscan)
+
+|GENECOUNT_PROGRAM=htseq, featurecounts  ###(Options: GENECOUNT_PROGRAM=none, GENECOUNT_PROGRAM=htseq, GENECOUNT_PROGRAM=featurecounts, or GENECOUNT_PROGRAM=htseq, featurecounts)
+
+|FEATURE_TYPE=exon
+
+|MDUP_PROGRAM=sambamba  ###(Options: sambamba, markdupspark, or picard)
+
+|BQSR_PROGRAM=bqsrspark ###(Options: bqsrspark or bqsr)
+
+##########################################################
+##################### GENERAL PARAMETERS #################
+
+|CALL_BY_CHROM=yes  # Only for local machine
+|BP_BY_CHROM=all    # Only for HPCC
+|CHROM_SET=2
+|SELECT_CHROM=1,2
+|INCLUDE_CHROM_X=no
+|INCLUDE_CHROM_Y=no
+|INCLUDE_CHROM_MT=no
+|ADAPTER_TRIMMOMATIC=/home/work/rps/softwares/IVDP/program/03.qc_trim/adapters/TruSeq3-SE.fa:3:30:10
+|MIN_READ_LENGTH=36
+|MAX_READ_LENGTH=70
+|MIN_DEPTH=3
+|MAF=0.01
+|MISSING=0
+|COMBINE_VCF=partial  ###(Options: COMBINE_VCF=none, COMBINE_VCF=partial, COMBINE_VCF=full, or COMBINE_VCF=partial, full)
+|THREADS=40         # Only for local machine
+|BATCH=5            # Only for local machine
+|STATS_ALIGNMENT=yes
+|KEEP_LOG=yes
+|KEEP_INTERMEDIATE_DATA=yes
+
+##########################################################

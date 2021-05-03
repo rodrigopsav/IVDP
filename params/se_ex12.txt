@@ -1,0 +1,63 @@
+# For more details about IVDP parameters, visit https://github.com/rodrigopsav/IVDP
+
+##########################################################
+######################## INPUT DATA ######################
+
+|INPUT_DIR=./examples/se_rnaseq
+|OUTPUT_DIR=./output
+|OUTPUT_NAME=SEex11
+|LIST_SAMPLES=none
+|ANALYSIS=2   # ANALYSIS=1 (for WGS) or ANALYSIS=2 (for RNAseq)
+|EXTENSION_SE=_fastq.gz
+
+
+##########################################################
+####################### INPUT GENOME #####################
+
+|ASSEMBLY=refGen
+|REFERENCE=./examples/ref_gen/reference.fa
+|VARIANTS=./examples/ref_gen/variants.vcf.gz
+|ANNOTATION=./examples/ref_gen/annotation.gtf
+
+
+##########################################################
+####################### WORKFLOW STEPS ###################
+
+|STEP_QC_TRIM=yes
+|STEP_ALIGNMENT=yes
+|STEP_GENECOUNT=yes
+|STEP_MDUP=no
+|STEP_BQSR=no
+|STEP_VAR_CALL=no
+|STEP_VCF_FILTER=no
+
+
+##########################################################
+#################### CHOOSE THE PROGRAMS #################
+
+|ALIGNER_PROGRAM=hisat2
+|CALLER_PROGRAM=bcftools, platypus, freebayes
+|GENECOUNT_PROGRAM=featurecounts
+|FEATURE_TYPE=exon
+
+
+##########################################################
+##################### GENERAL PARAMETERS #################
+
+|CALL_BY_CHROM=yes  # Only for local machine
+|BP_BY_CHROM=all    # Only for HPCC
+|CHROM_SET=2
+|SELECT_CHROM=1,2
+|MIN_READ_LENGTH=36
+|MAX_READ_LENGTH=70
+|MIN_DEPTH=3
+|MAF=0.01
+|MISSING=0.3
+|COMBINE_VCF=partial
+|THREADS=40         # Only for local machine
+|BATCH=5            # Only for local machine
+|STATS_ALIGNMENT=yes
+|KEEP_LOG=yes
+|KEEP_INTERMEDIATE_DATA=yes
+
+##########################################################

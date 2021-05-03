@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#############################################################
+############ SBATCH Lines for Resource Request ##############
+#############################################################
+
+# Number of nodes needed: could be an exact number or a range of nodes (same as -N)
+#SBATCH --nodes=1
+#
+# Tasks per node:
+#SBATCH --ntasks-per-node=1
+#############################################################
+
+#
+#
+#
+
+eval "$(conda shell.bash hook)"
+conda activate ivdp
+conda activate --stack r-env4.0
+export CONDA_DEFAULT_ENV=$CONDA_DEFAULT_ENV
+PAR_AUX=$OUTPUT_DIR/ivdp_"$OUTPUT_NAME"/logSlurm/"${ANALYSIS_ID}"_parAuxiliar.txt
+
+export IVDP_DIR=$(cat $PAR_AUX | grep "|IVDP_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export INPUT_DIR=$(cat $PAR_AUX | grep "|INPUT_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export OUTPUT_DIR=$(cat $PAR_AUX | grep "|OUTPUT_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export OUTPUT_NAME=$(cat $PAR_AUX | grep "|OUTPUT_NAME" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export LIST_SAMPLES=$(cat $PAR_AUX | grep "|LIST_SAMPLES" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ANALYSIS=$(cat $PAR_AUX | grep "|ANALYSIS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_SE=$(cat $PAR_AUX | grep "|EXTENSION_SE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_PE1=$(cat $PAR_AUX | grep "|EXTENSION_PE1" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_PE2=$(cat $PAR_AUX | grep "|EXTENSION_PE2" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ASSEMBLY=$(cat $PAR_AUX | grep "|ASSEMBLY" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export TYPE=$(cat $PAR_AUX | grep "|TYPE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export PARAMETERS=$(cat $PAR_AUX | grep "|PARAMETERS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+
+export THREADS=$SLURM_CPUS_PER_TASK
+wait
+
+#
+#
+#
+
+START_IVDP=$(date +%s)
+
+source $IVDP_DIR/program/03.qc_trim/fastq_stats.sh
+wait
+
+
+END_IVDP=$(date +%s)
+DIFF_IVDP=$(( $END_IVDP - $START_IVDP ))
+
+echo
+echo "#@ Assembly Index took $(printf '%dh:%dm:%ds\n' $(($DIFF_IVDP/3600)) $(($DIFF_IVDP%3600/60)) $(($DIFF_IVDP%60)))"
+echo "#@#############################################################"
+
+
+

@@ -1,0 +1,51 @@
+##################################
+##### RESTORE CONDA ENV IVDP #####
+#################################
+
+##### 1. Create YML files
+
+conda activate ivdp
+conda env export > ivdp.yml
+conda env export --from-history > ivdp_fh.yml
+conda deactivate
+
+conda activate ivdp2
+conda env export > ivdp2.yml
+conda env export --from-history > ivdp2_fh.yml
+conda deactivate
+
+conda activate r-env4.0
+conda env export > r-env4.0.yml
+conda env export --from-history > r-env4.0_fh.yml
+conda deactivate
+
+##### 2. Restore IVDP from .yml
+
+conda env create -f ivdp.yml
+conda env create -f ivdp2.yml
+conda env create -f r-env4.0.yml
+
+bwa
+bwa-mem2
+trimmomatic
+picard
+gatk
+sambamba
+snpEff
+
+
+##### 3. Restore IVDP from _fh.yml (if step 2 didn't work)
+
+conda env create -f ivdp_fh.yml
+conda env create -f ivdp2_fh.yml
+conda env create -f r-env4.0_fh.yml
+
+bwa
+bwa-mem2
+trimmomatic
+picard
+gatk
+sambamba
+snpEff
+
+

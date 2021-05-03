@@ -1,0 +1,151 @@
+#!/bin/bash
+
+##########################################################
+########### SBATCH Lines for Resource Request ############
+##########################################################
+
+# Number of nodes needed: could be an exact number or a range of nodes (same as -N)
+#SBATCH --nodes=1
+#
+# Tasks per node:
+#SBATCH --ntasks-per-node=1
+##########################################################
+
+#
+#
+#
+
+eval "$(conda shell.bash hook)"
+conda activate ivdp
+conda activate --stack r-env4.0
+export CONDA_DEFAULT_ENV=$CONDA_DEFAULT_ENV
+PAR_AUX=$OUTPUT_DIR/ivdp_"$OUTPUT_NAME"/logSlurm/"${ANALYSIS_ID}"_parAuxiliar2.txt
+
+export IVDP_DIR=$(cat $PAR_AUX | grep "|IVDP_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export INPUT_DIR=$(cat $PAR_AUX | grep "|INPUT_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export OUTPUT_DIR=$(cat $PAR_AUX | grep "|OUTPUT_DIR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export OUTPUT_NAME=$(cat $PAR_AUX | grep "|OUTPUT_NAME" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export LIST_SAMPLES=$(cat $PAR_AUX | grep "|LIST_SAMPLES" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ANALYSIS=$(cat $PAR_AUX | grep "|ANALYSIS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_SE=$(cat $PAR_AUX | grep "|EXTENSION_SE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_PE1=$(cat $PAR_AUX | grep "|EXTENSION_PE1" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export EXTENSION_PE2=$(cat $PAR_AUX | grep "|EXTENSION_PE2" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ASSEMBLY=$(cat $PAR_AUX | grep "|ASSEMBLY" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export REFERENCE=$(cat $PAR_AUX | grep "|REFERENCE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export VARIANTS=$(cat $PAR_AUX | grep "|VARIANTS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ANNOTATION=$(cat $PAR_AUX | grep "|ANNOTATION" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_QC_TRIM=$(cat $PAR_AUX | grep "|STEP_QC_TRIM" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_ALIGNMENT=$(cat $PAR_AUX | grep "|STEP_ALIGNMENT" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_GENECOUNT=$(cat $PAR_AUX | grep "|STEP_GENECOUNT" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_MDUP=$(cat $PAR_AUX | grep "|STEP_MDUP" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_BQSR=$(cat $PAR_AUX | grep "|STEP_BQSR" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_VAR_CALL=$(cat $PAR_AUX | grep "|STEP_VAR_CALL" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_GVCF_TO_VCF=$(cat $PAR_AUX | grep "|STEP_GVCF_TO_VCF" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export STEP_VCF_FILTER=$(cat $PAR_AUX | grep "|STEP_VCF_FILTER" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MDUP_PROGRAM=$(cat $PAR_AUX | grep "|MDUP_PROGRAM" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export BQSR_PROGRAM=$(cat $PAR_AUX | grep "|BQSR_PROGRAM" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export STATS_ALIGNMENT=$(cat $PAR_AUX | grep "|STATS_ALIGNMENT" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export CALL_BY_CHROM=$(cat $PAR_AUX | grep "|CALL_BY_CHROM" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export BP_BY_CHROM=$(cat $PAR_AUX | grep "|BP_BY_CHROM" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export CHROM_SET=$(cat $PAR_AUX | grep "|CHROM_SET" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export INCLUDE_CHROM_X=$(cat $PAR_AUX | grep "|INCLUDE_CHROM_X" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export INCLUDE_CHROM_Y=$(cat $PAR_AUX | grep "|INCLUDE_CHROM_Y" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export INCLUDE_CHROM_MT=$(cat $PAR_AUX | grep "|INCLUDE_CHROM_MT" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export ADAPTER_TRIMMOMATIC=$(cat $PAR_AUX | grep "|ADAPTER_TRIMMOMATIC" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MIN_READ_LENGTH=$(cat $PAR_AUX | grep "|MIN_READ_LENGTH" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MAX_READ_LENGTH=$(cat $PAR_AUX | grep "|MAX_READ_LENGTH" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export DOWNSAMPLING_FASTQ=$(cat $PAR_AUX | grep "|DOWNSAMPLING_FASTQ" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export DOWNSAMPLING_BAM=$(cat $PAR_AUX | grep "|DOWNSAMPLING_BAM" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MIN_DEPTH=$(cat $PAR_AUX | grep "|MIN_DEPTH" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MAF=$(cat $PAR_AUX | grep "|MAF" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export MISSING=$(cat $PAR_AUX | grep "|MISSING" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export BATCH=$(cat $PAR_AUX | grep "|BATCH" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export KEEP_LOG=$(cat $PAR_AUX | grep "|KEEP_LOG" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export KEEP_INTERMEDIATE_DATA=$(cat $PAR_AUX | grep "|KEEP_INTERMEDIATE_DATA" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export TYPE=$(cat $PAR_AUX | grep "|TYPE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export PARAMETERS=$(cat $PAR_AUX | grep "|PARAMETERS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+
+export CHROM_NAME=$(cat $PAR_AUX | grep "|CHROM_NAME" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export CHROM_SIZE=$(cat $PAR_AUX | grep "|CHROM_SIZE" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+export CHROM_POSITIONS=$(cat $PAR_AUX | grep "|CHROM_POSITIONS" | sed -e "s/[[:space:]]\+//g" | cut -d "=" -f 2- | cut -d "#" -f 1)
+
+export GENECOUNT_PROGRAM=$(cat $PAR_AUX | grep "|GENECOUNT_PROGRAM" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export FEATURE_TYPE=$(cat $PAR_AUX | grep "|FEATURE_TYPE" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export COMBINE_VCF=$(cat $PAR_AUX | grep "|COMBINE_VCF" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export ALIGNER_PROGRAM=$(cat $PAR_AUX | grep "|ALIGNER_PROGRAM" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+export CALLER_PROGRAM=$(cat $PAR_AUX | grep "|CALLER_PROGRAM" | cut -d "=" -f 2- | cut -d "#" -f 1 | tr "," "\n")
+
+
+export THREADS=$SLURM_CPUS_PER_TASK
+wait
+
+
+#
+#
+#
+
+echo
+echo "#@#############################################################"
+echo "#@                    IVDP ANALYSIS: $ANALYSIS_ID"
+echo "#@                         INPUT PARAMETERS"
+echo "#@   INPUT FODLER: $INPUT_DIR"
+echo "#@   OUTPUT FOLDER: $OUTPUT_DIR"
+echo "#@   NAME OF ANALYSIS: $OUTPUT_NAME"
+echo "#@   TYPE OF ANALYSIS: $(if [[ $ANALYSIS == 1 ]]; then echo "WGS"; else echo "RNA-Seq"; fi) "
+echo "#@   TYPE OF FILES: $(if [[ $TYPE == "se" ]]; then echo "Single-end"; else echo "Paired-end"; fi) "
+echo "#@   LIST OF SAMPLES: $LIST_SAMPLES"
+echo "#@"
+echo "#@                   REFERENCE GENOME PARAMETERS"
+echo "#@   NAME OF REFERENCE GENOME: $ASSEMBLY"
+echo "#@   REFERENCE GENOME FILE: $REFERENCE"
+echo "#@   VARIANTS REFERENCE GENOME FILE: $VARIANTS"
+echo "#@   ANNOTATION REFERENCE GENOME FILE: $ANNOTATION"
+echo "#@"
+echo "#@                         PIPELINE STEPS"
+echo "#@   QUALITY CONTROL AND ADAPTER TRIMMING: $STEP_QC_TRIM"
+echo "#@   ALIGMNMENT: $STEP_ALIGNMENT"
+echo "#@   GENE COUNTS: $STEP_GENECOUNT"
+echo "#@   MARK DUPLICATED READS: $STEP_MDUP"
+echo "#@   BASE QUALITY SCORE RECALIBRATION: $STEP_BQSR"
+echo "#@   VARIANT CALLING: $STEP_VAR_CALL"
+echo "#@   CONVERT GVCF TO VCF: $STEP_GVCF_TO_VCF"
+echo "#@   FILTER VCF: $STEP_VCF_FILTER"
+echo "#@"
+echo "#@                        OTHER PARAMETERS"
+echo "#@   ALIGNER PROGRAMS: " $ALIGNER_PROGRAM
+echo "#@   VARIANT CALLING PROGRAMS: " $CALLER_PROGRAM
+echo "#@   GENE COUNT PROGRAM: " $GENECOUNT_PROGRAM
+echo "#@   FEATURE TYPE FOR GENE COUNT: " $FEATURE_TYPE
+echo "#@"
+echo "#@   ADAPTERS FOR TRIMMING: $ADAPTER_TRIMMOMATIC"
+echo "#@   MINIMUM READ LENGTH: $MIN_READ_LENGTH"
+echo "#@   MAXIMUN READ LENGTH: $MAX_READ_LENGTH"
+echo "#@   MINIMUN DEPTH FOR FILTERED LOCI: $MIN_DEPTH"
+echo "#@   MINIMUN ALLELE FREQUENCY FOR FILTERED LOCI: $MAF"
+echo "#@   MAXIMUN GENOTYPE MISSING RATE: $MISSING"
+echo "#@   COMBINING VARIANTS FROM DIFFERENT VCFs: " $COMBINE_VCF
+echo "#@"
+if [[ "$STEP_VAR_CALL" == "yes" && "$BP_BY_CHROM" != "all" ]]; then echo "#@   CHUNKS BY CHROMOSOME (FOR VARIANT CALLING): ${BP_BY_CHROM}bp"; fi
+if [[ "$DOWNSAMPLING_FASTQ" != 0 ]]; then echo "#@   DOWNSAMPLING COVERAGE (FASTQ): $DOWNSAMPLING_FASTQ"; fi
+if [[ "$DOWNSAMPLING_BAM" != 0 ]]; then echo "#@   DOWNSAMPLING COVERAGE (BAM): $DOWNSAMPLING_BAM"; fi
+echo "#@   NUMBER OF THREADS: $THREADS"
+echo "#@   KEEP LOG FILES: $KEEP_LOG"
+echo "#@   KEEP TRIMMED FASTQ AND BAM FILES: $KEEP_INTERMEDIATE_DATA" 
+echo "#@"
+D1=$(date "+%D    %T")
+echo "#@    Date and Time: $D1"
+echo "#@#############################################################"
+
+START_IVDP=$(date +%s)
+
+source $IVDP_DIR/program/01.general_steps/slurm/runSlurmGeneCount.sh
+wait
+echo
+
+END_IVDP=$(date +%s)
+DIFF_IVDP=$(( $END_IVDP - $START_IVDP ))
+
+echo
+echo "#@ Gene Count took $(printf '%dh:%dm:%ds\n' $(($DIFF_IVDP/3600)) $(($DIFF_IVDP%3600/60)) $(($DIFF_IVDP%60)))"
+echo "#@#############################################################"
+
