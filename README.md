@@ -2,7 +2,7 @@
 # IVDP: Integrated Variant Discovery Pipeline
 ## User manual and guide
 
-IVDP is a collection of Bash and R scripts developed for calling variants purposes - SNPs (single-nucleotide polymorphisms) and Indels (insertions and deletions) - from Whole Genome Sequence (WGS) and RNA Sequence (RNAseq) data. It can also do gene counts of RNAseq data.
+IVDP is a collection of Bash and R scripts developed for variant calling purposes - SNPs (single-nucleotide polymorphisms) and Indels (insertions and deletions) - from Whole Genome Sequence (WGS) and RNA Sequence (RNAseq) data. It can also do gene counts of RNAseq data.
 IVDP combines more than 30 programs and R packages for data manipulation and bioinformatic analysis. It is optimized to run in a local server machine or HPCC with slurm scheduler.
 
 
