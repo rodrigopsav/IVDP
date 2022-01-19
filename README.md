@@ -37,7 +37,7 @@ IVDP combines more than 30 programs and R packages for data manipulation and bio
 
 
 ## Citation
-Savegnago, R. P. IVDP: Integrated Variant Discovery Pipeline for whole genome sequencing and RNA sequencing. 2021. GitHub repository, https://github.com/rodrigopsav/IVDP
+Savegnago RP, Gondro C. IVDP: Integrated Variant Discovery Pipeline for whole genome sequencing and RNA sequencing. 2021. GitHub repository, https://github.com/rodrigopsav/IVDP
 
 [Download citation](https://github.com/rodrigopsav/IVDP/tree/main/program/01.general_steps/image/ivdp_citation.bib)
 
